@@ -9,19 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('tickets', function (Blueprint $table) {
+    public function up(): void {
+        Schema::create('escaneos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('entrada_id')->constrained('entradas')->onDelete('cascade');
+            $table->timestamp('fecha_hora');
+            $table->string('ubicacion')->nullable(); // Ubicación donde se escaneó
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('tickets');
+        Schema::dropIfExists('escaneos');
     }
 };

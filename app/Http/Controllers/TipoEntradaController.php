@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ConcertController extends Controller
+class TipoEntradaController extends Controller
 {
     /**
      * Display a listing of the resource.
