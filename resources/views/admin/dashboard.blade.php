@@ -1,9 +1,6 @@
 {{-- resources/views/admin/dashboard.blade.php --}}
 @extends('layouts.app')
 
-
-@extends('layouts.app')
-
 @section('content')
 
         <h1>Dashboard de Administrador</h1>

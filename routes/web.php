@@ -22,4 +22,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 });
 
+Route::get('/concerts/create', [ConcertController::class, 'create'])->name('concerts.create');
+Route::get('/concerts/index', [ConcertController::class, 'index'])->name('concerts.index');
+Route::post('/concerts', [ConcertController::class, 'store'])->name('concerts.store');
+
 require __DIR__.'/auth.php';
