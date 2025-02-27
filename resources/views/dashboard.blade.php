@@ -19,7 +19,6 @@
         {{-- Opcional: Si quieres mostrar algo solo a usuarios logueados --}}
         @auth
             <p class="mt-4">Ya estás autenticado como {{ Auth::user()->name }}.</p>
-            <p>aaaaaaaaaaaaa</p>
         @endauth
     </div>
 @endsection

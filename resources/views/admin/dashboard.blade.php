@@ -8,9 +8,9 @@
         <div class="container">
             <h2>Bienvenido, {{ Auth::user()->name }}</h2>
             @if(Auth::user()->isAdmin())
-                 <a href="{{ route('concerts.create') }}">Crear Concierto</a>
+                 <a href="{{ route('eventos.create') }}">Crear Concierto</a>
             @endif
-                <a href="{{ route('concerts.index') }}">Ver Conciertos</a>
+                <a href="{{ route('eventos.index') }}">Ver Conciertos</a>
         </div>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
