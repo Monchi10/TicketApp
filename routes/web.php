@@ -19,7 +19,7 @@ Route::middleware(['auth'])->group(function () {
         if ($user->isAdmin()) {
             return view('admin.dashboard'); // Vista del admin
         }
-        return view('dashboard'); // Vista del usuario normal
+        return view('welcome'); // Vista del usuario normal
     })->name('dashboard');
 });
 

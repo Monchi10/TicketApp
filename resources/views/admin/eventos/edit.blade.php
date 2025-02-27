@@ -56,8 +56,68 @@
                 @endif
             </div>
 
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-            <a href="{{ route('eventos.index') }}" class="btn btn-secondary">Cancelar</a>
+            <hr>
+
+            <h3>Tipos de Entrada</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tiposEntradaContainer">
+                    @foreach($evento->tiposEntrada as $entrada)
+                        <tr>
+                            <td><input type="text" name="tipos_entrada[{{ $loop->index }}][nombre]" class="form-control" value="{{ $entrada->nombre }}" required></td>
+                            <td><input type="number" name="tipos_entrada[{{ $loop->index }}][precio]" class="form-control" value="{{ $entrada->precio }}" required></td>
+                            <td><input type="number" name="tipos_entrada[{{ $loop->index }}][stock]" class="form-control" value="{{ $entrada->stock }}" required></td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm eliminarFila">Eliminar</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-success btn-sm" id="agregarEntrada">Agregar Entrada</button>
+
+            <hr>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Guardar Evento</button>
+                <a href="{{ route('eventos.index') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
         </form>
     </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let index = {{ $evento->tiposEntrada->count() }};
+    
+            document.getElementById("agregarEntrada").addEventListener("click", function() {
+                let container = document.getElementById("tiposEntradaContainer");
+                let nuevaFila = document.createElement("tr");
+    
+                nuevaFila.innerHTML = `
+                    <td><input type="text" name="tipos_entrada[${index}][nombre]" class="form-control" required></td>
+                    <td><input type="number" name="tipos_entrada[${index}][precio]" class="form-control" required></td>
+                    <td><input type="number" name="tipos_entrada[${index}][stock]" class="form-control" required></td>
+                    <td><button type="button" class="btn btn-danger btn-sm eliminarFila">Eliminar</button></td>
+                `;
+    
+                container.appendChild(nuevaFila);
+                index++;
+            });
+    
+            document.getElementById("tiposEntradaContainer").addEventListener("click", function(event) {
+                if (event.target.classList.contains("eliminarFila")) {
+                    event.target.closest("tr").remove();
+                }
+            });
+        });
+    </script>
+    
 @endsection

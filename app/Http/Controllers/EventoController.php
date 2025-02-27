@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evento;
+use App\Models\TipoEntrada;
 use Illuminate\Http\Request;
 
 class EventoController extends Controller {
@@ -30,6 +31,13 @@ class EventoController extends Controller {
             'estado' => 'required|in:activo,finalizado,cancelado',
         ]);
 
+        $capacidad = $request->capacidad;
+        $totalStock = array_sum(array_column($request->tipos_entrada, 'stock'));
+    
+        if ($totalStock > $capacidad) {
+            return redirect()->back()->withErrors(['stock' => 'La suma del stock de los tipos de entrada supera la capacidad del evento.'])->withInput();
+        }
+        
         // Guardar imagen si se ha subido
         $imagenPath = null;
         if ($request->hasFile('imagen')) {
@@ -37,7 +45,7 @@ class EventoController extends Controller {
         }
 
         // Crear evento
-        Evento::create([
+        $evento = Evento::create([
             'nombre' => $request->nombre,
             'artista' => $request->artista,
             'fecha' => $request->fecha,
@@ -48,6 +56,17 @@ class EventoController extends Controller {
             'estado' => $request->estado,
         ]);
 
+
+        if ($request->has('tipos_entrada')) {
+            foreach ($request->tipos_entrada as $entrada) {
+                TipoEntrada::create([
+                    'evento_id' => $evento->id,
+                    'nombre' => $entrada['nombre'],
+                    'precio' => $entrada['precio'],
+                    'stock' => $entrada['stock'],
+                ]);
+            }
+        }
         return redirect()->route('eventos.index')->with('success', 'Evento creado con éxito');
     }
 
@@ -60,7 +79,7 @@ class EventoController extends Controller {
     // Mostrar el formulario de edición de un evento
     public function edit($id)
     {
-        $evento = Evento::findOrFail($id);
+        $evento = Evento::with('tiposEntrada')->findOrFail($id);
         return view('admin.eventos.edit', compact('evento'));
     }
     
@@ -95,7 +114,21 @@ class EventoController extends Controller {
             $evento->imagen = $imagenPath;
             $evento->save();
         }
-    
+
+        // Actualizar Tipos de Entrada
+        $evento->tiposEntrada()->delete();
+
+        if ($request->has('tipos_entrada')) {
+            foreach ($request->tipos_entrada as $entrada) {
+                TipoEntrada::create([
+                    'evento_id' => $evento->id,
+                    'nombre' => $entrada['nombre'],
+                    'precio' => $entrada['precio'],
+                    'stock' => $entrada['stock'],
+                ]);
+            }
+        }
+
         return redirect()->route('eventos.index')->with('success', 'Evento actualizado correctamente.');
     }
     
@@ -105,7 +138,7 @@ class EventoController extends Controller {
         $evento = Evento::findOrFail($id);
         $evento->delete();
 
-        return redirect()->route('admin.eventos.index')->with('success', 'Evento eliminado con éxito');
+        return redirect()->route('eventos.index')->with('success', 'Evento eliminado con éxito');
     }
 }
 

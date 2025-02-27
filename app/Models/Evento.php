@@ -20,4 +20,10 @@ class Evento extends Model {
         'imagen',
         'estado'
     ];
+
+
+    public function tiposEntrada()
+    {
+        return $this->hasMany(TipoEntrada::class);
+    }
 }

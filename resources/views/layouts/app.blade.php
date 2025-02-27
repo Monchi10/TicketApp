@@ -19,7 +19,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container">
             <!-- Logo o Nombre del Sitio -->
-            <a class="navbar-brand" href="{{ route('welcome') }}">
+            <a class="navbar-brand" href="{{ route('dashboard') }}">
                 {{-- Puedes colocar aquí un logo si lo deseas --}}
                 <img src="{{ asset('build/TicketApp.png') }}" alt="TicketApp" width="150px" height="150px">
             </a>
@@ -33,14 +33,16 @@
             <!-- Enlaces de la navbar -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Enlaces de la izquierda -->
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('eventos.index') }}">Conciertos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Teatro</a>
-                    </li>
-                </ul>
+                @if(Auth::user()->isAdmin())
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('eventos.index') }}">Conciertos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Teatro</a>
+                        </li>
+                    </ul>
+                @endif
 
                 <!-- Enlaces de la derecha -->
                 <ul class="navbar-nav ml-auto">
@@ -72,6 +74,23 @@
     
     <!-- Contenido de la página -->
     <main class="py-4">
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 
