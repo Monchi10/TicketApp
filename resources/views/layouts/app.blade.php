@@ -33,7 +33,7 @@
             <!-- Enlaces de la navbar -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Enlaces de la izquierda -->
-                @if(Auth::user()->isAdmin())
+                @if(Auth::user()->role == 'admin')
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('eventos.index') }}">Conciertos</a>
