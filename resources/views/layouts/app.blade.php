@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Venta de Entradas</title>
     <!-- Incluye Bootstrap CSS (puedes usar la versión que prefieras) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Aplica la fuente moderna al navbar y a los enlaces */
         .navbar, .navbar-nav .nav-link {
@@ -33,7 +33,7 @@
             <!-- Enlaces de la navbar -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Enlaces de la izquierda -->
-                @if(Auth::user()->role == 'admin')
+                @if(Auth::check() && Auth::user()->role == 'admin')
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('eventos.index') }}">Conciertos</a>
@@ -96,6 +96,6 @@
 
     <!-- Scripts de Bootstrap (JavaScript y dependencias) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

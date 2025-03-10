@@ -7,58 +7,39 @@ use Illuminate\Http\Request;
 class PedidosController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra el carrito de compras.
      */
     public function index()
     {
-        //
+        return view('carrito.index');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Elimina un item del carrito.
      */
-    public function create()
+    public function eliminar($id)
     {
-        //
+        $cart = session()->get('cart', []);
+        unset($cart[$id]);
+        session()->put('cart', $cart);
+
+        return redirect()->route('carrito.index')->with('success', 'Entrada eliminada del carrito.');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Confirma el pedido.
      */
-    public function store(Request $request)
+    public function confirmarPedido()
     {
-        //
-    }
+        $cart = session()->get('cart', []);
+        if (empty($cart)) {
+            return redirect()->route('carrito.index')->with('error', 'El carrito está vacío.');
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        // Aquí se procesaría la creación del pedido en la base de datos
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        session()->forget('cart'); // Vaciar el carrito tras la compra
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('carrito.index')->with('success', 'Pedido confirmado correctamente.');
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class EventoController extends Controller {
     // Mostrar todos los eventos
     public function index() {
+       
         $eventos = Evento::all();
         return view('admin.eventos.index', compact('eventos'));
     }
@@ -130,8 +131,9 @@ class EventoController extends Controller {
         }
 
         return redirect()->route('eventos.index')->with('success', 'Evento actualizado correctamente.');
+
+        
     }
-    
 
     // Eliminar un evento
     public function destroy($id) {
