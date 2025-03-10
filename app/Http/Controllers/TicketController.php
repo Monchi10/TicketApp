@@ -68,6 +68,7 @@ class TicketController extends Controller
         for ($i = 0; $i < $request->cantidad; $i++) {
             // Generar un código único para cada entrada (usado en el QR)
             $codigoEntrada = strtoupper(Str::random(12));
+            
 
             Entrada::create([
                 'pedido_id'       => $pedido->id,
@@ -94,8 +95,21 @@ class TicketController extends Controller
     }
 
     // Procesa el escaneo de una entrada
-    public function scanTicket(Request $request, Entrada $entrada)
+    public function scanTicket(Request $request, $codigo)
     {
+        // dd($codigo);
+        // Buscar la entrada por su código
+        $entrada = Entrada::where('codigo', $codigo)->first();
+
+        if (!$entrada) {
+            return response()->json(['success' => false, 'message' => 'Entrada no encontrada.'], 404);
+        }
+
+        if ($entrada->usada) {
+            return response()->json(['success' => false, 'message' => 'La entrada ya fue usada.'], 400);
+        }
+
+        // Registrar escaneo
         Escaneo::create([
             'entrada_id' => $entrada->id,
             'fecha_hora' => Carbon::now(),

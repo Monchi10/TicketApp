@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConcertController;
 use App\Http\Controllers\EventoController;
@@ -19,16 +20,14 @@ Route::get('/', function () {
 
 // ✅ Ruta protegida para el Dashboard (Solo accesible si el usuario está autenticado)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        $user = Auth::user();
-        if ($user->isAdmin()) {
-            return view('admin.dashboard'); // Vista del admin
-        }
-        return redirect('/'); // Redirige al usuario normal al home (en lugar de cargar `welcome`)
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
+
 // ✅ Otras rutas...
+
+
+
 
 Route::get('/concerts/create', [ConcertController::class, 'create'])->name('concerts.create');
 Route::get('/concerts/index', [ConcertController::class, 'index'])->name('concerts.index');
@@ -50,5 +49,8 @@ Route::get('/pedidos/{pedido}/detalle', [TicketController::class, 'showTicketDet
 
 // Ruta para el proceso de escaneo (por ejemplo, desde la app del organizador)
 Route::post('/entradas/{entrada}/escanear', [TicketController::class, 'scanTicket'])->name('tickets.scan');
+
+Route::get('/consumirEntrada/{codigo}', [TicketController::class, 'scanTicket'])->name('entradas.use');
+
 
 require __DIR__.'/auth.php';

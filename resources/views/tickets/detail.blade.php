@@ -18,7 +18,7 @@
                         <p><strong>Código de Entrada:</strong> {{ $entrada->codigo }}</p>
                         {{-- Generar el QR real usando simple-qrcode --}}
                         <div>
-                            {!! QrCode::size(200)->generate($entrada->codigo) !!}
+                            {!! QrCode::size(200)->generate("127.0.0.1/consumirEntrada/".$entrada->codigo) !!}
                         </div>
                     </div>
                 </div>
