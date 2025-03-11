@@ -59,7 +59,7 @@
         btnAgregar.addEventListener('click', function() {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td><input type="text" name="posiciones[${rowIndex}]" class="form-control" placeholder="Ej: VIP, Palco, Campo" required></td>
+                <td><input type="text" name="posiciones[]" class="form-control" placeholder="Ej: Tribuna, Campo, etc." required></td>
                 <td><button type="button" class="btn btn-danger btn-sm eliminarPosicion">Eliminar</button></td>
             `;
             container.appendChild(row);

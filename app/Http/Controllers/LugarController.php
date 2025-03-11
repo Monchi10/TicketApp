@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lugar;
 use Illuminate\Http\Request;
+use App\Models\LugarPosicion;
 
 class LugarController extends Controller {
     // Mostrar todos los lugares
@@ -22,21 +23,35 @@ class LugarController extends Controller {
         $request->validate([
             'nombre' => 'required|string|max:255',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'posiciones' => 'nullable|array',
+            'posiciones.*' => 'string|max:255', // Cada posición debe ser un string válido
         ]);
-
-        // Guardar la imagen si se subió
+    
+        // Guardar la imagen del lugar
         $imagenPath = null;
         if ($request->hasFile('imagen')) {
             $imagenPath = $request->file('imagen')->store('lugares', 'public');
         }
-
-        Lugar::create([
+    
+        // Crear el lugar
+        $lugar = Lugar::create([
             'nombre' => $request->nombre,
             'imagen' => $imagenPath,
         ]);
-
+    
+        // Guardar las posiciones asociadas si existen
+        if ($request->has('posiciones')) {
+            foreach ($request->posiciones as $posicion) {
+                LugarPosicion::create([
+                    'id_lugar' => $lugar->id,
+                    'posicion' => $posicion,
+                ]);
+            }
+        }
+    
         return redirect()->route('lugares.index')->with('success', 'Lugar creado con éxito');
     }
+    
 
     // Mostrar formulario de edición
     public function edit(Lugar $lugar) {
@@ -67,4 +82,3 @@ class LugarController extends Controller {
         return redirect()->route('lugares.index')->with('success', 'Lugar eliminado con éxito');
     }
 }
-

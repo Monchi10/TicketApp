@@ -9,7 +9,8 @@ class LugarPosicion extends Model {
     use HasFactory;
 
     protected $table = 'lugares_posiciones';
-    protected $fillable = ['id_lugar', 'posición', 'imagen'];
+    protected $fillable = ['id_lugar', 'posicion', 'imagen'];
+
 
     public function lugar() {
         return $this->belongsTo(Lugar::class, 'id_lugar');

@@ -29,7 +29,7 @@
     // ✅ Otras rutas...
 
     Route::resource('lugares', LugarController::class);
-    Route::resource('lugares-posiciones', LugarPosicionController::class);
+    // Route::resource('lugares-posiciones', LugarPosicionController::class);
 
 
     Route::get('/concerts/create', [ConcertController::class, 'create'])->name('concerts.create');
