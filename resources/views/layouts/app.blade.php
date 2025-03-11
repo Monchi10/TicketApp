@@ -94,6 +94,31 @@
         @yield('content')
     </main>
 
+    <footer class="bg-dark text-light pt-4 pb-2">
+        <div class="container">
+        <div class="row align-items-center">
+            <!-- Primera fila: Datos y enlaces -->
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            <p class="mb-0">Derechos reservados © TicketApp 2025 Datos de la Empresa</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+            <p class="mb-0">
+                El uso de este sitio web constituye la aceptación de los 
+                <a href="#" class="text-decoration-underline text-light">Términos y Condiciones</a>, 
+                de la <a href="#" class="text-decoration-underline text-light">Política de Privacidad</a>, 
+                de la <a href="#" class="text-decoration-underline text-light">Política de Cookies</a> y 
+                de la <a href="#" class="text-decoration-underline text-light">Política de Privacidad para Móviles</a>.
+            </p>
+            </div>
+        </div>
+        <!-- Segunda fila: Información adicional -->
+        <div class="row mt-3">
+            <div class="col text-center">
+            <p class="small mb-0">Do Not Share My Personal Information / Your Privacy Choices</p>
+            </div>
+        </div>
+        </div>
+  </footer>
     <!-- Scripts de Bootstrap (JavaScript y dependencias) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

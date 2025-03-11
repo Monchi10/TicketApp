@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Evento;
 use App\Models\TipoEntrada;
+use App\Models\Lugar;
 use Illuminate\Http\Request;
 
 class EventoController extends Controller {
@@ -16,8 +17,10 @@ class EventoController extends Controller {
 
     // Mostrar el formulario para crear un evento
     public function create() {
-        return view('admin.eventos.create');
+        $lugares = Lugar::all();
+        return view('admin.eventos.create', compact('lugares'));
     }
+    
 
     // Guardar un nuevo evento en la base de datos
     public function store(Request $request) {
@@ -51,7 +54,7 @@ class EventoController extends Controller {
             'artista' => $request->artista,
             'fecha' => $request->fecha,
             'hora' => $request->hora,
-            'lugar' => $request->lugar,
+            'lugar_id' => $request->lugar_id,
             'capacidad' => $request->capacidad,
             'imagen' => $imagenPath,
             'estado' => $request->estado,

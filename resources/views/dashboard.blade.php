@@ -4,7 +4,7 @@
 @section('content')
 <div class="container mt-5">
     <div class="card shadow-lg p-4">
-        <h1 class="text-center text-primary">Dashboard de Usuario</h1>
+        <h1 class="text-center text-primary">Dashboard de </strong> {{ $user->isAdmin() ? 'Administrador' : 'Usuario' }}</p></h1>
         <p class="text-center">Bienvenido, <strong>{{ $user->name }}</strong>. Aquí puedes ver tu información.</p>
 
         @auth
@@ -33,7 +33,7 @@
         <div class="row mt-3">
             <div class="col-md-12">
                 <div class="card border-info">
-                    <div class="card-header bg-info text-white text-center">Información de Usuario</div>
+                    <div class="card-header bg-info text-white text-center">Información de <strong>{{ $user->isAdmin() ? 'Administrador' : 'Usuario' }}</strong></div>        
                     <div class="card-body text-center">
                         <p><strong>Nombre:</strong> {{ $user->name }}</p>
                         <p><strong>Email:</strong> {{ $user->email }}</p>

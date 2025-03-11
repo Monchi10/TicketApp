@@ -64,4 +64,31 @@
     </div>
     @endif
 </div>
+<div>
+    @if($eventos->count() > 0)
+    <div class="container mt-5">
+        <h2>Conciertos</h2>
+        <div class="row">
+            @foreach($eventos as $eventos)
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="{{ asset('storage/' . $eventos->imagen) }}" 
+                             class="card-img-top" 
+                             alt="{{ $eventos->nombre }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $eventos->nombre }}</h5>
+                            <p class="card-text">
+                                {{ $eventos->dia }} - {{ $eventos->fecha }} - {{ $eventos->hora }}
+                            </p>
+                            <p class="card-text">
+                                {{ $eventos->lugar }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+@endif
+</div>
 @endsection

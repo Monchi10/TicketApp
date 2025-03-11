@@ -34,8 +34,18 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="lugar" class="form-label">Lugar</label>
-                            <input type="text" name="lugar" id="lugar" class="form-control" placeholder="Lugar del evento" required>
+                            <label for="lugar_id" class="form-label">Lugar</label>
+                            <select name="lugar_id" id="lugar_id" class="form-select" required>
+                                <option value="">-- Selecciona un lugar --</option>
+                                @foreach($lugares as $lugar)
+                                    <option value="{{ $lugar->id }}" data-imagen="{{ asset('storage/' . $lugar->imagen) }}">
+                                        {{ $lugar->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div id="imagenLugar" class="mb-3 text-center">
+                            <img id="previewImagenLugar" src="" class="img-fluid" style="max-width: 300px; display: none;">
                         </div>
 
                         <div class="mb-3">
@@ -110,5 +120,19 @@
             });
         });
     });
+
+    document.getElementById('lugar_id').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const imageUrl = selectedOption.getAttribute('data-imagen');
+    const preview = document.getElementById('previewImagenLugar');
+    
+    if (imageUrl) {
+        preview.src = imageUrl;
+        preview.style.display = 'block';
+    } else {
+        preview.style.display = 'none';
+    }
+});
 </script>
+
 @endsection
