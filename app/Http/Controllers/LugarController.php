@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lugar;
 use Illuminate\Http\Request;
 use App\Models\LugarPosicion;
+use App\Http\Controllers\Storage;
 
 class LugarController extends Controller {
     // Mostrar todos los lugares
@@ -56,8 +57,6 @@ class LugarController extends Controller {
     // Mostrar formulario de edición
     public function edit(Lugar $lugare) {
         $lugar = Lugar::findOrFail($lugare->id);
-
-        // dd($lugar);
         return view('admin.lugares.edit', compact('lugar'));
     }
 

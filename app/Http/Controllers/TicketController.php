@@ -10,6 +10,7 @@ use App\Models\Entrada;
 use App\Models\Escaneo;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 
 class TicketController extends Controller
@@ -145,6 +146,14 @@ class TicketController extends Controller
         ]);
 
         return redirect()->route('tickets.user')->with('success', 'Pedido realizado con éxito.');
+    }
+
+        public function myTickets()
+    {
+        $user = Auth::user();
+        $pedidos = Pedido::where('email_comprador', $user->email)->with('entradas.tipoEntrada.evento')->get();
+
+        return view('tickets.my_tickets', compact('pedidos'));
     }
 
 }

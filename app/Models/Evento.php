@@ -15,7 +15,7 @@ class Evento extends Model {
         'artista',
         'fecha',
         'hora',
-        'lugar',
+        'lugar_id',
         'capacidad',
         'imagen',
         'estado'

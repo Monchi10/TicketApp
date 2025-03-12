@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h2>{{ $evento->nombre }}</h2>
-    <p>{{ $evento->artista }} - {{ $evento->lugar }} ({{ $evento->fecha }})</p>
+    <h2><strong>{{ $evento->nombre }}- ({{ $evento->fecha }})</strong></h2>
+    <img src="{{ asset('storage/' . $evento->imagen) }}" alt="{{ $evento->nombre }}">
     <hr>
     <h4>Tipos de Entrada Disponibles</h4>
     @if($tiposEntrada->count() > 0)

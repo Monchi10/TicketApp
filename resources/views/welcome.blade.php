@@ -25,20 +25,17 @@
     </div>
 
     <!-- Barra de búsqueda -->
-    <div class="row">
-        <div class="col-md-12">
-            <form action="#" method="GET">
-                <div class="input-group mb-4 mt-2">
-                    <input type="text" class="form-control" placeholder="Buscar espectáculos y más" aria-label="Buscar" name="query">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">
-                            Buscar
-                        </button>
-                    </div>
-                </div>
-            </form>
+    <form action="{{ route('eventos.index') }}" method="GET">
+        <div class="input-group mb-4 mt-2">
+            <input type="text" class="form-control" placeholder="Buscar por artista" 
+                   aria-label="Buscar" name="query" value="{{ request('query') }}">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">
+                    Buscar
+                </button>
+            </div>
         </div>
-    </div>
+    </form>
 
     @if(isset($eventos) && $eventos->count() > 0)
     <div id="eventoCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
@@ -50,7 +47,7 @@
                 </a>                
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ $evento->nombre }}</h5>
-                    <p>{{ $evento->artista }} - {{ $evento->lugar }} ({{ $evento->fecha }})</p>
+                    <p>{{ $evento->artista }} - {{ $evento->lugar_nombre }} ({{ $evento->fecha }}) {{ $evento->lugar->nombre }}</p>
                 </div>
             </div>
             @endforeach
@@ -69,19 +66,26 @@
     <div class="container mt-5">
         <h2>Conciertos</h2>
         <div class="row">
-            @foreach($eventos as $eventos)
+            @foreach($eventos as $evento)
                 <div class="col-md-3">
                     <div class="card">
-                        <img src="{{ asset('storage/' . $eventos->imagen) }}" 
-                             class="card-img-top" 
-                             alt="{{ $eventos->nombre }}">
+                        <div class="container mt-5">
+                            <a href="{{ route('tickets.purchase', $evento->id) }}">
+                                <img src="{{ asset('storage/' . $evento->imagen) }}" 
+                                     class="card-img-top" 
+                                     alt="{{ $evento->nombre }}">
+                            </a>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ $eventos->nombre }}</h5>
+                            <h5 class="card-title">{{ $evento->nombre }}</h5>
                             <p class="card-text">
-                                {{ $eventos->dia }} - {{ $eventos->fecha }} - {{ $eventos->hora }}
+                                {{ $evento->lugar->nombre }}  
                             </p>
                             <p class="card-text">
-                                {{ $eventos->lugar }}
+                                {{ $evento->fecha }} 
+                            </p>
+                            <p class="card-text">
+                                {{ $evento->hora }} 
                             </p>
                         </div>
                     </div>
@@ -89,6 +93,8 @@
             @endforeach
         </div>
     </div>
+@else
+    <p class="text-center mt-3">No se encontraron resultados para "{{ request('query') }}"</p>
 @endif
 </div>
 @endsection

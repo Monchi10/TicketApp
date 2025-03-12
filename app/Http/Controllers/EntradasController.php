@@ -7,6 +7,9 @@ use App\Models\TipoEntrada;
 use App\Models\Pedidos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class EntradaController extends Controller
 {
@@ -99,6 +102,30 @@ class EntradaController extends Controller
         ]);
 
         return redirect()->route('entradas.index')->with('success', 'Entrada actualizada correctamente');
+    }
+
+    public function generateQR($codigo)
+    {
+        // Genera el QR basado en el código de la entrada
+        $qrCode = QrCode::format('png')->size(300)->generate($codigo);
+
+        return response($qrCode)->header('Content-Type', 'image/png');
+    }
+
+    public function downloadQR($codigo)
+    {
+        // Generar QR como imagen PNG
+        $qrCode = QrCode::format('png')->size(300)->generate("127.0.0.1/consumirEntrada/" . $codigo);
+
+        // Nombre del archivo
+        $fileName = 'QR_' . $codigo . '.png';
+
+        // Guardar en almacenamiento temporal
+        $filePath = storage_path('app/public/' . $fileName);
+        file_put_contents($filePath, $qrCode);
+
+        // Descargar archivo
+        return response()->download($filePath)->deleteFileAfterSend(true);
     }
 
     /**

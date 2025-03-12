@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
     use App\Models\Evento;
     use App\Models\Pedido;
     use App\Http\Controllers\LugarPosicionController;
+    use App\Http\Controllers\EntradaController;
 
 
     // ✅ Ruta pública para todos los usuarios (Muestra el carrusel con eventos)
@@ -61,5 +62,8 @@ use App\Http\Controllers\ProfileController;
 
     Route::get('/consumirEntrada/{codigo}', [TicketController::class, 'scanTicket'])->name('entradas.use');
 
+    Route::get('/generate-qr/{codigo}', [EntradaController::class, 'generateQR'])->name('generate.qr');
+    Route::get('/mis-entradas', [TicketController::class, 'myTickets'])->name('tickets.user')->middleware('auth');
+    Route::get('/download-qr/{codigo}', [EntradaController::class, 'downloadQR'])->name('download.qr');
 
     require __DIR__.'/auth.php';

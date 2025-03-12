@@ -13,7 +13,7 @@
                 <p><strong>Artista:</strong> {{ $evento->artista }}</p>
                 <p><strong>Fecha:</strong> {{ $evento->fecha }}</p>
                 <p><strong>Hora:</strong> {{ $evento->hora }}</p>
-                <p><strong>Lugar:</strong> {{ $evento->lugar }}</p>
+                <p><strong>Lugar:</strong> {{ $evento->lugar->nombre }}</p>
                 <p><strong>Capacidad:</strong> {{ $evento->capacidad }}</p>
                 <p><strong>Estado:</strong> 
                     <span class="badge 

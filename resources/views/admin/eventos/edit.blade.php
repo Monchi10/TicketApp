@@ -42,7 +42,7 @@
                 <option value="">-- Selecciona un lugar --</option>
                 @foreach($lugares as $lugar)
                 {{-- @dd($lugares) --}}
-                  <option value="{{ $lugar->id }}" data-imagen="{{ asset('storage/' . $lugar->imagen) }}" {{ $lugar->id == $evento->lugar ? 'selected' : '' }}>
+                  <option value="{{ $lugar->id }}" data-imagen="{{ asset('storage/' . $lugar->imagen) }}" {{ $lugar->id == $evento->lugar_id ? 'selected' : '' }}>
                     {{ $lugar->nombre }}
                   </option>
                 @endforeach

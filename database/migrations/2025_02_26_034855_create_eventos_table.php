@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('artista');
             $table->date('fecha');
             $table->time('hora');
-            $table->string('lugar');
+            $table->string('lugar_id');
             $table->integer('capacidad');
             $table->string('imagen')->nullable(); // URL o path de la imagen
             $table->enum('estado', ['activo', 'finalizado', 'cancelado'])->default('activo');

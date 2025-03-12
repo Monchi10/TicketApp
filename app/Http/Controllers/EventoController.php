@@ -13,6 +13,14 @@ class EventoController extends Controller {
        
         $eventos = Evento::all();
         return view('admin.eventos.index', compact('eventos'));
+
+        $query = $request->input('query');
+
+        $eventos = Evento::when($query, function ($queryBuilder) use ($query) {
+            $queryBuilder->where('artista', 'LIKE', "%{$query}%");
+        })->get();
+
+    return view('tu_vista', compact('eventos', 'query'));
     }
 
     // Mostrar el formulario para crear un evento
@@ -54,7 +62,7 @@ class EventoController extends Controller {
             'artista' => $request->artista,
             'fecha' => $request->fecha,
             'hora' => $request->hora,
-            'lugar' => $request->lugar_id,
+            'lugar_id' => $request->lugar_id,
             'capacidad' => $request->capacidad,
             'imagen' => $imagenPath,
             'estado' => $request->estado,
@@ -87,7 +95,6 @@ class EventoController extends Controller {
     {
         $evento = Evento::with('tiposEntrada')->findOrFail($id);
         $lugares = Lugar::all();
-        // dd($lugares);
         return view('admin.eventos.edit', compact('evento', 'lugares'));
     }
     

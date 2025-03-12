@@ -47,7 +47,7 @@
                 <!-- Enlaces de la derecha -->
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Mis Entradas</a>
+                        <a class="nav-link" href="{{ route('tickets.user') }}">Mis Entradas</a>
                     </li>
                     @guest
                         <li class="nav-item">
