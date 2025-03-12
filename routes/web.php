@@ -16,10 +16,10 @@ use App\Http\Controllers\ProfileController;
 
 
     // ✅ Ruta pública para todos los usuarios (Muestra el carrusel con eventos)
-    Route::get('/', function () {
+/*     Route::get('/', function () {
         $eventos = Evento::all();
         return view('welcome', compact('eventos'));
-    });
+    }); */
 
     Route::get('/', [ClienteController::class, 'index'])->name('home');
 
