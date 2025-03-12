@@ -6,7 +6,15 @@
     <img src="{{ asset('storage/' . $evento->imagen) }}" alt="{{ $evento->nombre }}">
     <hr>
     <h4>Tipos de Entrada Disponibles</h4>
+
     @if($tiposEntrada->count() > 0)
+        <!-- Mostrar mensaje de error si hay un problema con la cantidad -->
+        @if(session('errors') && session('errors')->has('cantidad'))
+            <div class="alert alert-danger">
+                {{ session('errors')->first('cantidad') }}
+            </div>
+        @endif
+
         <form action="{{ route('tickets.process', $evento->id) }}" method="POST">
             @csrf
             <div class="mb-3">
@@ -39,3 +47,4 @@
     @endif
 </div>
 @endsection
+

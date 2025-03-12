@@ -35,11 +35,12 @@ class TicketController extends Controller
     // Procesa la compra, genera el pedido y las entradas individuales
     public function processPurchase(Request $request, Evento $evento)
     {
+        // Validar que el correo del comprador coincida con el del usuario autenticado
+        $user = Auth::user();
         $request->validate([
-            'nombre_comprador' => 'required|string|max:255',
-            'email_comprador'  => 'required|email|max:255',
+            'email_comprador'  => 'required|email|max:255|in:' . $user->email, // Validación solo del email
             'tipo_entrada_id'  => 'required|exists:tipos_entrada,id',
-            'cantidad'         => 'required|integer|min:1',
+            'cantidad'         => 'required|integer|min:1|max:10', // Limitar la cantidad a un máximo de 10
         ]);
 
         // Obtener el tipo de entrada seleccionado
@@ -59,7 +60,7 @@ class TicketController extends Controller
         // Crear el pedido
         $pedido = Pedido::create([
             'codigo'           => $codigoPedido,
-            'nombre_comprador' => $request->nombre_comprador,
+            'nombre_comprador' => $request->nombre_comprador,  // El nombre puede ser cualquier cosa
             'email_comprador'  => $request->email_comprador,
             'total'            => $total,
             'estado'           => 'pendiente',
@@ -70,7 +71,6 @@ class TicketController extends Controller
             // Generar un código único para cada entrada (usado en el QR)
             $codigoEntrada = strtoupper(Str::random(12));
             
-
             Entrada::create([
                 'pedido_id'       => $pedido->id,
                 'tipo_entrada_id' => $tipoEntrada->id,
@@ -84,8 +84,9 @@ class TicketController extends Controller
 
         // Redireccionamos a la vista de detalle del pedido
         return redirect()->route('tickets.detail', ['pedido' => $pedido->id])
-                         ->with('success', 'Pedido realizado correctamente. Revisa tu correo para ver los QR.');
+                        ->with('success', 'Pedido realizado correctamente. Revisa tu correo para ver los QR.');
     }
+
 
     // Muestra el detalle del pedido con todas las entradas y sus QR
     public function showTicketDetail(Pedido $pedido)

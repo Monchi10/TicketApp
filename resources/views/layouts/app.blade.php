@@ -6,6 +6,8 @@
     <title>Venta de Entradas</title>
     <!-- Incluye Bootstrap CSS (puedes usar la versión que prefieras) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para íconos de redes sociales -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         /* Aplica la fuente moderna al navbar y a los enlaces */
         .navbar, .navbar-nav .nav-link {
@@ -94,31 +96,52 @@
         @yield('content')
     </main>
 
-    <footer class="bg-dark text-light pt-4 pb-2">
+    <footer class="bg-dark text-light pt-5 pb-3">
         <div class="container">
-        <div class="row align-items-center">
-            <!-- Primera fila: Datos y enlaces -->
-            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            <p class="mb-0">Derechos reservados © TicketApp 2025 Datos de la Empresa</p>
+            <div class="row">
+                <!-- Sección: Sobre la empresa -->
+                <div class="col-md-4 text-center text-md-start mb-4">
+                    <h5 class="fw-bold">TicketApp</h5>
+                    <p class="small">Compra tus entradas de manera rápida y segura para los mejores eventos.</p>
+                    <p class="small mb-0">© 2025 TicketApp. Todos los derechos reservados.</p>
+                </div>
+    
+                <!-- Sección: Enlaces rápidos -->
+                <div class="col-md-4 text-center mb-4">
+                    <h5 class="fw-bold">Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Términos y Condiciones</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Política de Privacidad</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Política de Cookies</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Ayuda</a></li>
+                    </ul>
+                </div>
+    
+                <!-- Sección: Redes Sociales -->
+                <div class="col-md-4 text-center text-md-end">
+                    <div class="d-flex align-items-center gap-2 justify-content-center justify-content-md-end">
+                        <h5 class="fw-bold mb-0">Síguenos</h5>
+                        <a href="https://www.instagram.com/agustingeloso9" class="text-light me-3">
+                            <i class="fab fa-instagram fa-2x"></i>
+                        </a>    
+                    </div>
+            
+                </div>
             </div>
-            <div class="col-md-6 text-center text-md-end">
-            <p class="mb-0">
-                El uso de este sitio web constituye la aceptación de los 
-                <a href="#" class="text-decoration-underline text-light">Términos y Condiciones</a>, 
-                de la <a href="#" class="text-decoration-underline text-light">Política de Privacidad</a>, 
-                de la <a href="#" class="text-decoration-underline text-light">Política de Cookies</a> y 
-                de la <a href="#" class="text-decoration-underline text-light">Política de Privacidad para Móviles</a>.
-            </p>
+    
+            <!-- Línea divisoria -->
+            <hr class="border-light my-4">
+    
+            <!-- Sección: Última fila -->
+            <div class="row">
+                <div class="col text-center">
+                    <p class="small mb-0">Do Not Share My Personal Information / Your Privacy Choices</p>
+                </div>
             </div>
         </div>
-        <!-- Segunda fila: Información adicional -->
-        <div class="row mt-3">
-            <div class="col text-center">
-            <p class="small mb-0">Do Not Share My Personal Information / Your Privacy Choices</p>
-            </div>
-        </div>
-        </div>
-  </footer>
+    </footer>
+    
+    
     <!-- Scripts de Bootstrap (JavaScript y dependencias) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

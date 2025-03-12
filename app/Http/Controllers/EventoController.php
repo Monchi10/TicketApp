@@ -147,6 +147,7 @@ class EventoController extends Controller {
 
         
     }
+    
 
     // Eliminar un evento
     public function destroy($id) {

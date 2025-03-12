@@ -2,17 +2,26 @@
 
 @section('content')
 <style>
-    /* Ajusta la imagen para que no exceda una altura y se recorte proporcionalmente */
+    /* Ajusta las imágenes del carrusel */
     .carousel-item img {
-        width: 90%;
-        max-height: 70vh;   /* Cambia el valor a la altura que prefieras */
-        object-fit: cover;   /* Recorta la imagen para ajustarse al contenedor */
+        width: 100%;
+        max-height: 500px; /* Ajusta la altura máxima */
+        object-fit: cover;  /* Recorta sin deformar */
+        border-radius: 10px; /* Bordes redondeados opcionales */
     }
-    /* Da un fondo semitransparente a la leyenda para que se vea mejor */
+
+    /* Fondo semitransparente en la leyenda */
     .carousel-caption {
-        background-color: rgba(0, 0, 0, 0.4); /* Fondo negro con 40% de opacidad */
+        background-color: rgba(0, 0, 0, 0.5);
         padding: 10px;
         border-radius: 5px;
+    }
+
+    /* Ajuste para las imágenes de las tarjetas */
+    .card-img-top {
+        width: 100%;
+        height: 250px;  /* Ajusta según sea necesario */
+        object-fit: cover; /* Mantiene la proporción sin deformar */
     }
 </style>
 
@@ -43,11 +52,11 @@
             @foreach ($eventos as $index => $evento)
             <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                 <a href="{{ route('tickets.purchase', $evento->id) }}">
-                    <img src="{{ asset('storage/' . $evento->imagen) }}" alt="{{ $evento->nombre }}">
+                    <img src="{{ asset('storage/' . $evento->imagen) }}" class="d-block w-100" alt="{{ $evento->nombre }}">
                 </a>                
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ $evento->nombre }}</h5>
-                    <p>{{ $evento->artista }} - {{ $evento->lugar_nombre }} ({{ $evento->fecha }}) {{ $evento->lugar->nombre }}</p>
+                    <p>{{ $evento->artista }} - {{ $evento->lugar->nombre }} ({{ $evento->fecha }})</p>
                 </div>
             </div>
             @endforeach
@@ -59,42 +68,40 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
         </button>
     </div>
-    @endif
-</div>
-<div>
-    @if($eventos->count() > 0)
+
+    <!-- Sección de Conciertos -->
     <div class="container mt-5">
         <h2>Conciertos</h2>
         <div class="row">
             @foreach($eventos as $evento)
                 <div class="col-md-3">
                     <div class="card">
-                        <div class="container mt-5">
-                            <a href="{{ route('tickets.purchase', $evento->id) }}">
-                                <img src="{{ asset('storage/' . $evento->imagen) }}" 
-                                     class="card-img-top" 
-                                     alt="{{ $evento->nombre }}">
-                            </a>
-                        </div>
+                        <a href="{{ route('tickets.purchase', $evento->id) }}">
+                            <img src="{{ asset('storage/' . $evento->imagen) }}" 
+                                 class="card-img-top" 
+                                 alt="{{ $evento->nombre }}">
+                        </a>
                         <div class="card-body">
                             <h5 class="card-title">{{ $evento->nombre }}</h5>
                             <p class="card-text">
                                 {{ $evento->lugar->nombre }}  
                             </p>
                             <p class="card-text">
-                                {{ $evento->fecha }} 
+                                {{ \Carbon\Carbon::parse($evento->fecha)->format('d/m/Y') }} 
                             </p>
                             <p class="card-text">
-                                {{ $evento->hora }} 
+                                {{ \Carbon\Carbon::parse($evento->hora)->format('gA') }} 
                             </p>
                         </div>
+                        
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
-@else
-    <p class="text-center mt-3">No se encontraron resultados para "{{ request('query') }}"</p>
-@endif
+    @else
+        <p class="text-center mt-3">No se encontraron resultados para "{{ request('query') }}"</p>
+    @endif
 </div>
+
 @endsection
