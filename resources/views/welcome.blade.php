@@ -34,7 +34,7 @@
     </div>
 
     <!-- Barra de búsqueda -->
-    <form action="{{ route('eventos.index') }}" method="GET">
+    <form action="{{ route('home') }}" method="GET">
         <div class="input-group mb-4 mt-2">
             <input type="text" class="form-control" placeholder="Buscar por artista" 
                    aria-label="Buscar" name="query" value="{{ request('query') }}">

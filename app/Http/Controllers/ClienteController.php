@@ -10,10 +10,16 @@ class ClienteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $eventos = Evento::all();
-        return view('welcome', compact('eventos'));
+    public function index(Request $request) {
+        $query = $request->input('query');
+    
+        $eventos = Evento::when($query, function ($queryBuilder) use ($query) {
+            $queryBuilder->where('artista', 'LIKE', "%{$query}%");
+        }, function ($queryBuilder) {
+            $queryBuilder->get(); // Si no hay búsqueda, trae todos los eventos
+        })->get();
+    
+        return view('welcome', compact('eventos', 'query'));
     }
 
     /**

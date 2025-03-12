@@ -48,7 +48,7 @@
                 @endforeach
               </select>
               <!-- Input hidden para enviar el valor del lugar -->
-              <input type="hidden" id=id_lugar name="id_lugar" value="{{ $evento->lugar }}">
+              <input type="hidden" id=id_lugar name="id_lugar" value="{{ $evento->lugar->id }}">
             </div>
             <div id="imagenLugar" class="mb-3 text-center">
               <img id="previewImagenLugar" src="{{ asset('storage/' . optional($evento->lugar)->imagen) }}" class="img-fluid" style="max-width: 300px;">
