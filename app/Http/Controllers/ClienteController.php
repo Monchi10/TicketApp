@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evento;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -11,7 +12,8 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //
+        $eventos = Evento::all();
+        return view('welcome', compact('eventos'));
     }
 
     /**

@@ -12,6 +12,7 @@ class TipoEntrada extends Model {
 
     protected $fillable = [
         'evento_id',
+        'lugar_posicion_id',
         'nombre',
         'precio',
         'stock'
@@ -20,5 +21,9 @@ class TipoEntrada extends Model {
     // Relación con Evento
     public function evento() {
         return $this->belongsTo(Evento::class);
+    }
+
+    public function LugarPosicion() {
+        return $this->hasOne(LugarPosicion::class);
     }
 }

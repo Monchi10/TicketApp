@@ -39,7 +39,7 @@
                             <a class="nav-link" href="{{ route('eventos.index') }}">Conciertos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Teatro</a>
+                            <a class="nav-link" href="{{ route('lugares.index') }}">Lugares</a>
                         </li>
                     </ul>
                 @endif

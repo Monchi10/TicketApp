@@ -80,8 +80,9 @@
                                 </tr>
                             </thead>
                             <tbody id="tiposEntradaContainer">
-                                <!-- Se agregarán dinámicamente las filas -->
+                                <!-- Aquí se agregarán dinámicamente las filas -->
                             </tbody>
+                            
                         </table>
 
                         <button type="button" class="btn btn-primary mb-3" id="agregarEntrada">Agregar Entrada</button>
@@ -98,41 +99,83 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const container = document.getElementById('tiposEntradaContainer');
-        const btnAgregar = document.getElementById('agregarEntrada');
-        let rowIndex = 0; // Índice para cada nueva fila
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('tiposEntradaContainer');
+    const btnAgregar = document.getElementById('agregarEntrada');
+    let rowIndex = 0;
+    let posicionesDisponibles = []; // Variable global para almacenar las posiciones
 
-        btnAgregar.addEventListener('click', function() {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><input type="text" name="tipos_entrada[${rowIndex}][nombre]" class="form-control" required></td>
-                <td><input type="number" name="tipos_entrada[${rowIndex}][precio]" class="form-control" required></td>
-                <td><input type="number" name="tipos_entrada[${rowIndex}][stock]" class="form-control" required></td>
-                <td><button type="button" class="btn btn-danger btn-sm eliminarEntrada">Eliminar</button></td>
-            `;
-            container.appendChild(row);
-            rowIndex++;
-
-            // Agregar el listener para eliminar la fila
-            row.querySelector('.eliminarEntrada').addEventListener('click', function() {
-                row.remove();
+    // Función para crear una nueva fila de entrada
+    function crearFilaEntrada() {
+        const row = document.createElement('tr');
+        let opciones = '<option value="">Selecciona una posición</option>';
+        // Si ya se cargaron posiciones, se agregan al select
+        if (posicionesDisponibles.length > 0) {
+            posicionesDisponibles.forEach(posicion => {
+                opciones += `<option value="${posicion.id}">${posicion.posicion}</option>`;
             });
+        }
+        row.innerHTML = `
+            <td><input type="text" name="tipos_entrada[${rowIndex}][nombre]" class="form-control" required></td>
+            <td><input type="number" name="tipos_entrada[${rowIndex}][precio]" class="form-control" required></td>
+            <td><input type="number" name="tipos_entrada[${rowIndex}][stock]" class="form-control" required></td>
+            <td>
+                <select name="tipos_entrada[${rowIndex}][posicion_id]" class="form-control" required>
+                    ${opciones}
+                </select>
+            </td>
+            <td><button type="button" class="btn btn-danger btn-sm eliminarEntrada">Eliminar</button></td>
+        `;
+        container.appendChild(row);
+        rowIndex++;
+
+        // Listener para eliminar la fila
+        row.querySelector('.eliminarEntrada').addEventListener('click', function() {
+            row.remove();
         });
+    }
+
+    btnAgregar.addEventListener('click', function() {
+        crearFilaEntrada();
     });
 
+    // Al cambiar el lugar se actualizan las posiciones y se almacenan globalmente
     document.getElementById('lugar_id').addEventListener('change', function() {
-    const selectedOption = this.options[this.selectedIndex];
-    const imageUrl = selectedOption.getAttribute('data-imagen');
-    const preview = document.getElementById('previewImagenLugar');
-    
-    if (imageUrl) {
-        preview.src = imageUrl;
-        preview.style.display = 'block';
-    } else {
-        preview.style.display = 'none';
-    }
+        const lugarId = this.value;
+        
+        if (lugarId) {
+            fetch(`/lugares/${lugarId}/posiciones`)
+                .then(response => response.json())
+                .then(data => {
+                    // Guardar posiciones globalmente
+                    posicionesDisponibles = data;
+                    // Actualizar todos los selects de posiciones existentes
+                    const selectPosiciones = document.querySelectorAll('select[name$="[posicion_id]"]');
+                    selectPosiciones.forEach(select => {
+                        select.innerHTML = '<option value="">Selecciona una posición</option>';
+                        data.forEach(posicion => {
+                            const option = document.createElement('option');
+                            option.value = posicion.id;
+                            option.textContent = posicion.posicion;
+                            select.appendChild(option);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al obtener posiciones:', error);
+                });
+        } else {
+            // Si no se selecciona lugar, se vacía la variable y los selects
+            posicionesDisponibles = [];
+            const selectPosiciones = document.querySelectorAll('select[name$="[posicion_id]"]');
+            selectPosiciones.forEach(select => {
+                select.innerHTML = '<option value="">Selecciona una posición</option>';
+            });
+        }
+    });
 });
+
+
 </script>
 
 @endsection

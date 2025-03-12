@@ -1,6 +1,7 @@
     <?php
 
-    use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ProfileController;
     use App\Http\Controllers\DashboardController;
     use Illuminate\Support\Facades\Route;
     use App\Http\Controllers\ConcertController;
@@ -20,6 +21,8 @@
         return view('welcome', compact('eventos'));
     });
 
+    Route::get('/', [ClienteController::class, 'index'])->name('home');
+
     // ✅ Ruta protegida para el Dashboard (Solo accesible si el usuario está autenticado)
     Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -29,6 +32,9 @@
     // ✅ Otras rutas...
 
     Route::resource('lugares', LugarController::class);
+
+    Route::get('/lugares/{lugar}/posiciones', [LugarController::class, 'getPosiciones']);
+
     // Route::resource('lugares-posiciones', LugarPosicionController::class);
 
 

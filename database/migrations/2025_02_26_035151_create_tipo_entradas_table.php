@@ -13,6 +13,7 @@ return new class extends Migration
         Schema::create('tipos_entrada', function (Blueprint $table) {
             $table->id();
             $table->foreignId('evento_id')->constrained('eventos')->onDelete('cascade');
+            $table->foreignId('lugar_posicion_id'); //revisar puede haber error
             $table->string('nombre'); // Ejemplo: General, VIP, Platea
             $table->decimal('precio', 10, 2);
             $table->integer('stock');

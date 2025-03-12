@@ -29,7 +29,7 @@ class EventoController extends Controller {
             'artista' => 'required|string|max:255',
             'fecha' => 'required|date',
             'hora' => 'required',
-            'lugar' => 'required|string|max:255',
+            'lugar_id' => 'required',
             'capacidad' => 'required|integer|min:1',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'estado' => 'required|in:activo,finalizado,cancelado',
@@ -54,7 +54,7 @@ class EventoController extends Controller {
             'artista' => $request->artista,
             'fecha' => $request->fecha,
             'hora' => $request->hora,
-            'lugar_id' => $request->lugar_id,
+            'lugar' => $request->lugar_id,
             'capacidad' => $request->capacidad,
             'imagen' => $imagenPath,
             'estado' => $request->estado,
@@ -63,8 +63,10 @@ class EventoController extends Controller {
 
         if ($request->has('tipos_entrada')) {
             foreach ($request->tipos_entrada as $entrada) {
+                // dd($entrada['posicion_id']);
                 TipoEntrada::create([
                     'evento_id' => $evento->id,
+                    'lugar_posicion_id' => $entrada['posicion_id'],
                     'nombre' => $entrada['nombre'],
                     'precio' => $entrada['precio'],
                     'stock' => $entrada['stock'],
@@ -84,7 +86,9 @@ class EventoController extends Controller {
     public function edit($id)
     {
         $evento = Evento::with('tiposEntrada')->findOrFail($id);
-        return view('admin.eventos.edit', compact('evento'));
+        $lugares = Lugar::all();
+        // dd($lugares);
+        return view('admin.eventos.edit', compact('evento', 'lugares'));
     }
     
     public function update(Request $request, $id)
@@ -94,7 +98,6 @@ class EventoController extends Controller {
             'artista' => 'required|string|max:255',
             'fecha' => 'required|date',
             'hora' => 'required',
-            'lugar' => 'required|string|max:255',
             'capacidad' => 'required|integer',
             'estado' => 'required|in:activo,finalizado,cancelado',
             'imagen' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048'
@@ -107,7 +110,6 @@ class EventoController extends Controller {
             'artista' => $request->artista,
             'fecha' => $request->fecha,
             'hora' => $request->hora,
-            'lugar' => $request->lugar,
             'capacidad' => $request->capacidad,
             'estado' => $request->estado
         ]);
@@ -126,6 +128,7 @@ class EventoController extends Controller {
             foreach ($request->tipos_entrada as $entrada) {
                 TipoEntrada::create([
                     'evento_id' => $evento->id,
+                    'lugar_posicion_id' => $entrada['posicion_id'],
                     'nombre' => $entrada['nombre'],
                     'precio' => $entrada['precio'],
                     'stock' => $entrada['stock'],
@@ -146,4 +149,3 @@ class EventoController extends Controller {
         return redirect()->route('eventos.index')->with('success', 'Evento eliminado con éxito');
     }
 }
-

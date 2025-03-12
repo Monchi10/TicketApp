@@ -26,4 +26,10 @@ class Evento extends Model {
     {
         return $this->hasMany(TipoEntrada::class);
     }
+
+    public function lugar()
+    {
+        return $this->belongsTo(Lugar::class);
+    }
+    
 }
